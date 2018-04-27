@@ -14,6 +14,7 @@ public class Player : MonoBehaviour {
 
     public float dashCount = 3f;
     public float dashDistance;
+    public float dashIncrementPerFrame;
 
     public LayerMask groundLayer;
 
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour {
 
         if (dashCount < 3.0f)
         {
-            dashCount = dashCount + 0.1f;
+            dashCount = dashCount + dashIncrementPerFrame;
         }
 
         if (Input.GetButtonDown("Dash") && dashCount >= 1)
@@ -137,6 +138,7 @@ public class Player : MonoBehaviour {
             {
                 transform.Translate(new Vector3(0, -Mathf.Sqrt(2 * dashDistance)));
             }
+            rb.velocity = new Vector2 (0,0);
         }
 
         if (rb.velocity.y < 0)

@@ -185,11 +185,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   jumpVelocity: 3
-  fallMultiplier: 2
+  fallMultiplier: 0.33
   lowJumpMultiplier: 8
   joystickThreshold: 0.6
   dashCount: 3
   dashDistance: 0.1
+  dashIncrementPerFrame: 0.05
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
