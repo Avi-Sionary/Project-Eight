@@ -9,6 +9,10 @@ public class Player : MonoBehaviour {
     public float jumpVelocity;
     public float fallMultiplier;
     public float lowJumpMultiplier;
+    public GameObject playerProjectilePrefab;
+    public float playerProjectileSpeed;
+    public Transform playerProjectileSpawn;
+    public float attackInterval;
 
     public float joystickThreshold = 0.2f;
 
@@ -24,6 +28,7 @@ public class Player : MonoBehaviour {
     public Text velocityX;
     public Text velocityY;
 
+    float lastShot = 0;
     Rigidbody2D rb;
     Vector2 Velocity;
 
@@ -63,11 +68,25 @@ public class Player : MonoBehaviour {
         if (input.x > joystickThreshold && (rb.velocity.x < moveSpeed))
         {
             rb.velocity += Vector2.right * moveSpeed;
+            if(transform.eulerAngles.y < 179)
+            {
+                Vector3 currRot = transform.eulerAngles;
+                currRot.y += 180 % 360;
+
+                transform.eulerAngles = currRot;
+            }
         }
 
         if (input.x < -joystickThreshold && (rb.velocity.x > -moveSpeed))
         {
             rb.velocity += Vector2.left * moveSpeed;
+            if (transform.eulerAngles.y > 179 && transform.eulerAngles.y < 181)
+            {
+                Vector3 currRot = transform.eulerAngles;
+                currRot.y += 180 % 360;
+
+                transform.eulerAngles = currRot;
+            }
         }
 
         if (input.x < joystickThreshold && input.x > -joystickThreshold)
@@ -150,5 +169,37 @@ public class Player : MonoBehaviour {
         }
 
         //rb.velocity = Velocity;
+
+        
+    }
+    void FixedUpdate()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Debug.Log("Fire1 Button was pressed.");
+            Fire();
+
+        }
+    }
+
+    void Fire()
+    {
+        if (Time.time > attackInterval + lastShot)
+        {
+            GameObject playerProjectile = (GameObject)Instantiate(playerProjectilePrefab, playerProjectileSpawn.position, playerProjectileSpawn.rotation);
+
+            if (transform.eulerAngles.y > 179 && transform.eulerAngles.y < 181)
+            {
+                playerProjectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(playerProjectileSpeed, 0));
+            }
+            else
+            {
+                playerProjectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(-playerProjectileSpeed, 0));
+            }
+
+            Destroy(playerProjectile, 3f);
+
+            lastShot = Time.time;
+        }
     }
 }
