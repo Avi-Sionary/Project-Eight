@@ -188,14 +188,7 @@ public class Player : MonoBehaviour {
         {
             GameObject playerProjectile = (GameObject)Instantiate(playerProjectilePrefab, playerProjectileSpawn.position, playerProjectileSpawn.rotation);
 
-            if (transform.eulerAngles.y > 179 && transform.eulerAngles.y < 181)
-            {
-                playerProjectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(playerProjectileSpeed, 0));
-            }
-            else
-            {
-                playerProjectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(-playerProjectileSpeed, 0));
-            }
+            playerProjectile.GetComponent<Rigidbody2D>().velocity = -playerProjectile.transform.right * playerProjectileSpeed;
 
             Destroy(playerProjectile, 3f);
 
