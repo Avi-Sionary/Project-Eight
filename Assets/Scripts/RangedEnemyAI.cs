@@ -13,12 +13,12 @@ public class RangedEnemyAI : MonoBehaviour {
     public Transform enemyProjectileSpawn;
     public float attackInterval;
     public float attackRange;
+    public float groundDetectionRange;
 
     float lastShot = 0;
     Transform playerLocation; 
     bool shooting;
     Rigidbody2D myBody;
-    Transform myTrans;
     float myWidth, myHeight;
     SpriteRenderer mySprite;
     // Use this for initialization
@@ -26,7 +26,6 @@ public class RangedEnemyAI : MonoBehaviour {
         playerLocation = GameObject.FindObjectOfType<Player>().transform;
         shooting = false;
         myBody = GetComponent<Rigidbody2D>();
-        myTrans = transform;
         mySprite = this.GetComponent<SpriteRenderer>();
         myWidth = mySprite.bounds.extents.x;
         myHeight = mySprite.bounds.extents.y;
@@ -36,30 +35,31 @@ public class RangedEnemyAI : MonoBehaviour {
     {
         if (!shooting)
         {
-            Vector2 lineCastPos = myTrans.position.toVector2() - myTrans.right.toVector2() * myWidth + Vector2.up * myHeight;
+            Vector2 lineCastPos = transform.position.toVector2() - transform.right.toVector2() * myWidth + Vector2.up * myHeight;
 
-            Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down);
-            bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, rangedEnemyMask);
+            Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down*(groundDetectionRange/10));
+            bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down*(groundDetectionRange/10), rangedEnemyMask);
 
-            Debug.DrawLine(lineCastPos, lineCastPos - myTrans.right.toVector2() * .05f);
-            bool isBlocked = Physics2D.Linecast(lineCastPos, lineCastPos - myTrans.right.toVector2() * .05f, rangedEnemyMask);
-
+            Debug.DrawLine(lineCastPos, lineCastPos - transform.right.toVector2() * .05f);
+            bool isBlocked = Physics2D.Linecast(lineCastPos, lineCastPos - transform.right.toVector2() * .05f, rangedEnemyMask);
             if (!isGrounded || isBlocked)
             {
-                Vector3 currRot = myTrans.eulerAngles;
+                Vector3 currRot = transform.eulerAngles;
                 currRot.y += 180 % 360;
 
-                myTrans.eulerAngles = currRot;
+                transform.eulerAngles = currRot;
             }
 
             Vector2 myVel = myBody.velocity;
-            myVel.x = -myTrans.right.x * speed;
+            myVel.x = -transform.right.x * speed;
             myBody.velocity = myVel;
 
-            Vector2 heading = playerLocation.position.toVector2() - myTrans.position.toVector2();
-            float distance = heading.magnitude;
             
-            if (distance <= attackRange)
+            Vector2 heading = playerLocation.position.toVector2() - transform.position.toVector2();
+            float xDistance = heading.magnitude;
+            float yDistance = Mathf.Abs(playerLocation.position.toVector2().y - transform.position.toVector2().y);
+            
+            if (xDistance <= attackRange && yDistance < 0.1f)
             {
                 shooting = true;
             }
@@ -67,27 +67,27 @@ public class RangedEnemyAI : MonoBehaviour {
         }
         else
         {
-            float myXposition = myTrans.position.x;
+            float myXposition = transform.position.x;
             float playerXposition = playerLocation.transform.position.x;
             //Debug.Log(myXposition + " " + playerXposition);
             if((myXposition - playerXposition) > 0)//right
             {
-                Vector3 currRot = myTrans.eulerAngles;
+                Vector3 currRot = transform.eulerAngles;
                 currRot.y = 0;
 
-                myTrans.eulerAngles = currRot;
+                transform.eulerAngles = currRot;
             }
             else if((myXposition - playerXposition) < 0)//left
             {
-                Vector3 currRot = myTrans.eulerAngles;
+                Vector3 currRot = transform.eulerAngles;
                 currRot.y = 180;
 
-                myTrans.eulerAngles = currRot;
+                transform.eulerAngles = currRot;
             }
 
             Fire();
 
-            Vector2 heading = playerLocation.position.toVector2() - myTrans.position.toVector2();
+            Vector2 heading = playerLocation.position.toVector2() - transform.position.toVector2();
             float distance = heading.magnitude;
 
             if (distance > attackRange)
