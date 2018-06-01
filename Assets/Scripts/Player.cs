@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
+
+    public int playerHealth = 4;
 
     public float moveSpeed;
     public float jumpVelocity;
@@ -50,7 +53,7 @@ public class Player : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
         if (hit.collider != null)
         {
-            Debug.Log("IsGrounded: " + hit.collider.name);
+            //Debug.Log("IsGrounded: " + hit.collider.name);
             
             return true;
         }
@@ -102,10 +105,10 @@ public class Player : MonoBehaviour {
         }
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
 
-        horizontalAxis.text = "XAxis: " + input.x.ToString();
-        verticalAxis.text = "YAxis: " + input.y.ToString();
-        velocityX.text = "Velocity X: " + rb.velocity.x.ToString();
-        velocityY.text = "Velocity Y: " + rb.velocity.y.ToString();
+        horizontalAxis.text =   "XAxis: " +         input.x.ToString();
+        verticalAxis.text =     "YAxis: " +         input.y.ToString();
+        velocityX.text =        "Velocity X: " +    rb.velocity.x.ToString();
+        velocityY.text =        "Velocity Y: " +    rb.velocity.y.ToString();
 
 
         if (input.x > joystickThreshold && (rb.velocity.x < moveSpeed))
@@ -142,14 +145,14 @@ public class Player : MonoBehaviour {
             //Velocity.y = jumpVelocity;
             sr.sprite = playerJumpSprite;
             rb.velocity = Vector2.up * jumpVelocity;
-            Debug.Log("Jump button was pressed.");
+            //Debug.Log("Jump button was pressed.");
         }
 
         //Jumping (A on xBox)
 
         if (Input.GetButtonUp("Jump"))
         {
-            Debug.Log("Jump button was released.");
+            //Debug.Log("Jump button was released.");
         }
 
         //Dashing (RB on xBox)
@@ -162,43 +165,51 @@ public class Player : MonoBehaviour {
         if (Input.GetButtonDown("Dash") && dashCount >= 1)
         {
             --dashCount;
-            Debug.Log("Dash button was pressed.");
+            //Debug.Log("Dash button was pressed.");
             if (input.x > joystickThreshold)
             {
-                if (input.y > joystickThreshold) //northeast
+                if (input.y > joystickThreshold) //northeast; 9
                 {
-                    transform.Translate(new Vector3(Mathf.Sqrt(2 * dashDistance), Mathf.Sqrt(2 * dashDistance)));
+                    Debug.Log("Dash: 9");
+                    transform.Translate(new Vector3(-Mathf.Sqrt(2 * dashDistance), Mathf.Sqrt(2 * dashDistance)));
                 }
-                else if (input.y < -joystickThreshold) //southeast
+                else if (input.y < -joystickThreshold) //southeast; 3
                 {
+                    Debug.Log("Dash: 3");
                     transform.Translate(new Vector3(Mathf.Sqrt(2 * dashDistance), -Mathf.Sqrt(2 * dashDistance)));
                 }
-                else //east
+                else //east; 6
                 {
-                    transform.Translate(new Vector3(Mathf.Sqrt(2 * dashDistance), 0));
+                    Debug.Log("Dash: 6");
+                    transform.Translate(new Vector3(-Mathf.Sqrt(2 * dashDistance), 0));
                 }
             }
             else if (input.x < -joystickThreshold)
             {
-                if (input.y > joystickThreshold) //northwest
+                if (input.y > joystickThreshold) //northwest; 7
                 {
+                    Debug.Log("Dash: 7");
                     transform.Translate(new Vector3(-Mathf.Sqrt(2 * dashDistance), Mathf.Sqrt(2 * dashDistance)));
                 }
-                else if (input.y < -joystickThreshold) //southwest
+                else if (input.y < -joystickThreshold) //southwest; 1
                 {
+                    Debug.Log("Dash: 1");
                     transform.Translate(new Vector3(-Mathf.Sqrt(2 * dashDistance), -Mathf.Sqrt(2 * dashDistance)));
                 }
-                else //west
+                else //west; 4
                 {
+                    Debug.Log("Dash: 4");
                     transform.Translate(new Vector3(-Mathf.Sqrt(2 * dashDistance), 0));
                 }
             }
-            else if (input.y == 1) //north
+            else if (input.y == 1) //north; 8
             {
+                Debug.Log("Dash: 8");
                 transform.Translate(new Vector3(0, Mathf.Sqrt(2 * dashDistance)));
             }
-            else if (input.y == -1) //south
+            else if (input.y == -1) //south; 2
             {
+                Debug.Log("Dash: 2");
                 transform.Translate(new Vector3(0, -Mathf.Sqrt(2 * dashDistance)));
             }
             rb.velocity = new Vector2(0, 0);
@@ -228,6 +239,18 @@ public class Player : MonoBehaviour {
             Destroy(playerProjectile, 3f);
 
             lastShot = Time.time;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Projectile" | collision.tag == "Enemy")
+        {
+            --playerHealth;
+            if (playerHealth <= 0)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 }

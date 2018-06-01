@@ -1032,6 +1032,14 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1223797759044192, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1223797759044192, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
   m_IsPrefabParent: 0
