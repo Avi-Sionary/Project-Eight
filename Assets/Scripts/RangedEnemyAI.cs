@@ -6,6 +6,7 @@ using UnityEngine;
 //http://www.devination.com/2015/07/unity-2d-platformer-tutorial-part-4.html 13-16 32-49
 
 public class RangedEnemyAI : MonoBehaviour {
+    public int enemyHealth;
     public LayerMask rangedEnemyMask;
     public float speed;
     public float enemyProjectileSpeed;
@@ -111,6 +112,18 @@ public class RangedEnemyAI : MonoBehaviour {
             Destroy(enemyProjectile, 3f);
 
             lastShot = Time.time;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            --enemyHealth;
+            if (enemyHealth <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
