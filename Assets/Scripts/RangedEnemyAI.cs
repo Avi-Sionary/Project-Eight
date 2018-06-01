@@ -14,27 +14,30 @@ public class RangedEnemyAI : MonoBehaviour {
     public float attackInterval;
     public float attackRange;
     public float groundDetectionRange;
+    public Sprite enemyShootingSprite;
+    public Sprite enemyStandingSprite;
 
     float lastShot = 0;
     Transform playerLocation; 
     bool shooting;
     Rigidbody2D myBody;
     float myWidth, myHeight;
-    SpriteRenderer mySprite;
+    SpriteRenderer sr;
     // Use this for initialization
     void Start () {
         playerLocation = GameObject.FindObjectOfType<Player>().transform;
         shooting = false;
         myBody = GetComponent<Rigidbody2D>();
-        mySprite = this.GetComponent<SpriteRenderer>();
-        myWidth = mySprite.bounds.extents.x;
-        myHeight = mySprite.bounds.extents.y;
+        sr = this.GetComponent<SpriteRenderer>();
+        myWidth = sr.bounds.extents.x;
+        myHeight = sr.bounds.extents.y;
     }
 	
     void FixedUpdate()
     {
         if (!shooting)
         {
+            sr.sprite = enemyStandingSprite;
             Vector2 lineCastPos = transform.position.toVector2() - transform.right.toVector2() * myWidth + Vector2.up * myHeight;
 
             Debug.DrawLine(lineCastPos, lineCastPos + Vector2.down*(groundDetectionRange/10));
@@ -67,6 +70,7 @@ public class RangedEnemyAI : MonoBehaviour {
         }
         else
         {
+            sr.sprite = enemyShootingSprite;
             float myXposition = transform.position.x;
             float playerXposition = playerLocation.transform.position.x;
             //Debug.Log(myXposition + " " + playerXposition);

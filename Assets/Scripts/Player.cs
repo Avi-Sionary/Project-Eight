@@ -20,6 +20,10 @@ public class Player : MonoBehaviour {
     public float dashDistance;
     public float dashIncrementPerFrame;
 
+    public Sprite playerStandSprite;
+    public Sprite playerShootSprite;
+    public Sprite playerJumpSprite;
+
     public LayerMask groundLayer;
 
     //Debug
@@ -31,6 +35,9 @@ public class Player : MonoBehaviour {
     float lastShot = 0;
     Rigidbody2D rb;
     Vector2 Velocity;
+    Sprite currentSprite;
+    SpriteRenderer sr;
+    bool shooting;
 
     bool IsGrounded()
     {
@@ -44,6 +51,7 @@ public class Player : MonoBehaviour {
         if (hit.collider != null)
         {
             Debug.Log("IsGrounded: " + hit.collider.name);
+            
             return true;
         }
 
@@ -53,11 +61,45 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        shooting = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
+        
+
+        
+    }
+    void FixedUpdate()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            shooting = true;
+            if (IsGrounded())
+            {
+                sr.sprite = playerShootSprite;
+            }
+            Fire();
+            Debug.Log("Fire1 Button was pressed.");
+
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            shooting = false;
+        }
+        if (IsGrounded())
+        {
+            if (shooting)
+            {
+                sr.sprite = playerShootSprite;
+            }
+            else
+            {
+                sr.sprite = playerStandSprite;
+            }
+        }
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxis("Vertical"));
 
         horizontalAxis.text = "XAxis: " + input.x.ToString();
@@ -65,10 +107,11 @@ public class Player : MonoBehaviour {
         velocityX.text = "Velocity X: " + rb.velocity.x.ToString();
         velocityY.text = "Velocity Y: " + rb.velocity.y.ToString();
 
+
         if (input.x > joystickThreshold && (rb.velocity.x < moveSpeed))
         {
             rb.velocity += Vector2.right * moveSpeed;
-            if(transform.eulerAngles.y < 179)
+            if (transform.eulerAngles.y < 179)
             {
                 Vector3 currRot = transform.eulerAngles;
                 currRot.y += 180 % 360;
@@ -97,6 +140,7 @@ public class Player : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             //Velocity.y = jumpVelocity;
+            sr.sprite = playerJumpSprite;
             rb.velocity = Vector2.up * jumpVelocity;
             Debug.Log("Jump button was pressed.");
         }
@@ -157,29 +201,20 @@ public class Player : MonoBehaviour {
             {
                 transform.Translate(new Vector3(0, -Mathf.Sqrt(2 * dashDistance)));
             }
-            rb.velocity = new Vector2 (0,0);
+            rb.velocity = new Vector2(0, 0);
         }
 
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-        } else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+        }
+        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
 
         //rb.velocity = Velocity;
-
         
-    }
-    void FixedUpdate()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Debug.Log("Fire1 Button was pressed.");
-            Fire();
-
-        }
     }
 
     void Fire()

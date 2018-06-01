@@ -27,5 +27,13 @@ public class CameraController : MonoBehaviour {
         {
             transform.position += new Vector3(width, 0, 0);
         }
+        if(screenPos.y < 0)
+        {
+            transform.position -= new Vector3(0, height, 0);
+        }
+        else if(screenPos.y > camera.pixelHeight)
+        {
+            transform.position += new Vector3(0, height, 0);
+        }
 	}
 }
