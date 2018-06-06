@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114434774213701532}
   m_Layer: 0
   m_Name: RangedEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f0afe9b6e296944a6aa8c92e4b39dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealth: 4
   rangedEnemyMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -249,7 +250,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -269,7 +270,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 198b2837104791c499b7f19efbdff097, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 11f245ad801909e4cba85598e420850c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
