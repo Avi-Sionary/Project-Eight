@@ -70,10 +70,13 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (playerHealth <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
-        
 
-        
+
     }
     void FixedUpdate()
     {
@@ -246,7 +249,9 @@ public class Player : MonoBehaviour {
     {
         if (collision.tag == "Projectile" | collision.tag == "Enemy")
         {
+            
             --playerHealth;
+            print(playerHealth);
             if (playerHealth <= 0)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
