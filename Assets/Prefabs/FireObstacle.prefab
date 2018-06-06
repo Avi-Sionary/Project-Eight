@@ -101,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fire: {fileID: 1573277625650312}
   height: 10
+  isOdd: 0
 --- !u!212 &212847527915668518
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -40,6 +40,8 @@ public class FireObstacle : MonoBehaviour {
                     {
                         y.y = y.y + (float)0.1;
                         GameObject.Instantiate(fire, y, transform.rotation);
+                        AudioSource flame = GetComponent<AudioSource>();
+                        flame.Play();
                     }
                 }
             }
