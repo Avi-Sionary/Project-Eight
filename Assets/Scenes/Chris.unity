@@ -1000,46 +1000,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4084956376831474, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 212952029996744284, guid: 75c0644fc3a84594da4f6191f4414639,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 212952029996744284, guid: 75c0644fc3a84594da4f6191f4414639,
-        type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 11f245ad801909e4cba85598e420850c,
-        type: 3}
-    - target: {fileID: 4468009141637298, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1223797759044192, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114434774213701532, guid: 75c0644fc3a84594da4f6191f4414639,
-        type: 2}
-      propertyPath: enemyProjectileSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4468009141637298, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1223797759044192, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 1223797759044192, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75c0644fc3a84594da4f6191f4414639, type: 2}
   m_IsPrefabParent: 0
@@ -1167,6 +1127,10 @@ Prefab:
     - target: {fileID: 4241270610227064, guid: b601379bac4c0a54681de0d1f188bb80, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057105856752420, guid: b601379bac4c0a54681de0d1f188bb80, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

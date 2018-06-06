@@ -115,11 +115,12 @@ public class RangedEnemyAI : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Projectile"))
         {
             --enemyHealth;
+            Debug.Log("enemy hit! health = " + enemyHealth.ToString());
             if (enemyHealth <= 0)
             {
                 Destroy(gameObject);
