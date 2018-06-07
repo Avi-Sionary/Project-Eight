@@ -42,6 +42,7 @@ public class Player : MonoBehaviour {
     SpriteRenderer sr;
     bool shooting;
 
+
     bool IsGrounded()
     {
         Vector2 position = transform.position;
@@ -88,6 +89,7 @@ public class Player : MonoBehaviour {
                 sr.sprite = playerShootSprite;
             }
             Fire();
+
             Debug.Log("Fire1 Button was pressed.");
 
         }
@@ -237,7 +239,11 @@ public class Player : MonoBehaviour {
         {
             GameObject playerProjectile = (GameObject)Instantiate(playerProjectilePrefab, playerProjectileSpawn.position, playerProjectileSpawn.rotation);
 
+            AudioSource fire = GetComponent<AudioSource>();
+
             playerProjectile.GetComponent<Rigidbody2D>().velocity = -playerProjectile.transform.right * playerProjectileSpeed;
+
+            fire.Play();
 
             Destroy(playerProjectile, 3f);
 
